@@ -1,0 +1,22 @@
+{
+  "name": "students-platform",
+  "version": "1.0.0",
+  "description": "Simple DB learning for students",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rishats/students-platform.git"
+  },
+  "author": "Rishat Sultanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rishats/students-platform/issues"
+  },
+  "homepage": "https://github.com/Rishats/students-platform#readme",
+  "dependencies": {
+    "graphql": "^0.11.6"
+  }
+}
