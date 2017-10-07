@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Console Control</title>
+  {% load static %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Press+Start+2P'>
+
+      <link rel="stylesheet" href="{% static 'users/console/css/style.css' %}">
+
+  
+</head>
+
+<body>
+  <div class="console">
+	<div class="output">
+		<span>Initializing...</span><br/>
+		<span class="green">0.0002ms ok!</span><br/>
+		<span class="seperator">== == == == == == == == == == == == == == == == == ==</span></br>
+		<pre contenteditable="false">
+             ______
+/\  ___\   /\__  _\    /\  == \ /\ \       /\  __ \   /\__  _\ /\  ___\ /\  __ \   /\  == \   /\ "-./  \
+\ \___  \  \/_/\ \/    \ \  _-/ \ \ \____  \ \  __ \  \/_/\ \/ \ \  __\ \ \ \/\ \  \ \  __<   \ \ \-./\ \
+ \/\_____\    \ \_\     \ \_\    \ \_____\  \ \_\ \_\    \ \_\  \ \_\    \ \_____\  \ \_\ \_\  \ \_\ \ \_\
+  \/_____/     \/_/      \/_/     \/_____/   \/_/\/_/     \/_/   \/_/     \/_____/   \/_/ /_/   \/_/  \/_/
+
+        </pre></br>
+		<span class="seperator">== == == == == == == == == == == == == == == == == ==</span></br>
+		<span>Welcome to ST-Platform <span class="red">Work with me ^)</span>!</span>
+		</br>
+		<span class="blue">type '<span class="grey">help</span>' to see a list of comands available</span><br>
+	</div>
+	<div class="action">
+		<span>stu$ </span>
+		<textarea class="input" name="input" cols="30" rows="1"></textarea>
+	</div>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+    <script  src="{% static 'users/console/js/index.js' %}"></script>
+
+</body>
+</html>
