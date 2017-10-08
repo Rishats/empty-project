@@ -113,18 +113,18 @@ function StudentsShow() {
 
 function StudentWorkShow(inputVal) {
 	var studentsArray = ['>Students:', 'rishat', 'khairidin', 'vlad', 'fara'];
-    studentsArray.forEach(function(student) {
-		if(inputVal.startsWith(student) === true) {
+    studentsArray.some(function(student) {
+		if(inputVal.startsWith(student)) {
 			Output('<span class="blue">OKAY! YOU WILL REDIRECT!.</span>');
 			setTimeout(function() {
 				window.open('/phpmyadmin/index.php?db='+student);
 			}, 1000);
-			// Leave foreach
+			return true;
 		}
 		else{
 			Output('<span>COMMAND NOT FOUND</span></br>');
 			input.val('');
-			// Leave foreach
+			return false;
 		}
 	});
 }
