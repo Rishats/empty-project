@@ -1,6 +1,12 @@
 from django.db import models
+from django.conf import settings
+
 
 class Student(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True)
     first_name = models.CharField(max_length=80, blank=True)
     last_name = models.CharField(max_length=80, blank=True)
     slug = models.CharField(max_length=255, blank=True)
