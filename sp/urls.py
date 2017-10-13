@@ -2,7 +2,7 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
-from users import views
+from students import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
