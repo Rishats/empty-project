@@ -16,7 +16,7 @@ class SignupForm(UserCreationForm):
         domain = data.split('@')[1]
         domain_list = ["iuca.kg", ]
         if domain not in domain_list:
-            raise ValidationError["Please enter an Email Address with a valid domain"]
+            raise ValidationError("Please enter an Email Address with a valid domain")
         return data
 
     def save(self, commit=True):
