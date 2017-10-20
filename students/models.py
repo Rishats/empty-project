@@ -20,7 +20,7 @@ class Student(models.Model):
 def create_profile_database(sender, **kwargs):
     if kwargs['created']:
         with connection.cursor() as cursor:
-            cursor.execute("CREATE DATABASE go")
+            cursor.execute("CREATE DATABASE username")
             row = cursor.fetchone()
         return row
 
