@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import post_save
+from django.db import connection
 
 
 class Student(models.Model):
@@ -14,6 +16,15 @@ class Student(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
+# Dev
+def create_profile_database(sender, **kwargs):
+    if kwargs['created']:
+        with connection.cursor() as cursor:
+            cursor.execute("CREATE DATABASE go")
+            row = cursor.fetchone()
+        return row
+
+post_save.connect(create_profile_database, sender=Student)
 
 class Work(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -24,4 +35,7 @@ class Work(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.name, self.points)
+
+
+
 
