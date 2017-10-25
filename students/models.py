@@ -3,11 +3,10 @@ from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.db import connection
-from pprint import pprint
 
 
 class Student(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         blank=True)
