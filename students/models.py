@@ -1,7 +1,9 @@
+import django
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.db import connection
+from pprint import pprint
 
 
 class Student(models.Model):
@@ -17,12 +19,15 @@ class Student(models.Model):
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
 # Dev
-def create_profile_database(sender, **kwargs):
+def create_profile_database(sender, instance, **kwargs):
     if kwargs['created']:
+        qn = connection.ops.quote_name
         with connection.cursor() as cursor:
-            cursor.execute("CREATE DATABASE username")
-            row = cursor.fetchone()
-        return row
+            try:
+                cursor.execute("CREATE DATABASE %s" % (
+                    qn(instance.slug)))
+            except Exception as e:
+                return e
 
 post_save.connect(create_profile_database, sender=Student)
 
