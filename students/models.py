@@ -25,9 +25,9 @@ def create_profile_database(sender, instance, **kwargs):
         with connection.cursor() as cursor:
             try:
                 cursor.execute("CREATE DATABASE %s" % (
-                    qn(instance.slug)))
+                    qn(str(instance.user))))
             except Exception as e:
-                return e
+                print(e)
 
 post_save.connect(create_profile_database, sender=Student)
 
