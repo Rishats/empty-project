@@ -13,7 +13,6 @@ class Student(models.Model):
         blank=True)
     first_name = models.CharField(max_length=80, blank=True)
     last_name = models.CharField(max_length=80, blank=True)
-    slug = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField('Datetime created')
 
     def __str__(self):
