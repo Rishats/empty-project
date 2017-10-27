@@ -1,8 +1,8 @@
-import django
 from django.db import models
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.db import connection
+
 
 
 class Student(models.Model):
@@ -27,7 +27,18 @@ def create_profile_database(sender, instance, **kwargs):
             except Exception as e:
                 print(e)
 
+# Dev
+def delete_profile_database(sender, instance, **kwargs):
+    qn = connection.ops.quote_name
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("DROP DATABASE %s" % (
+                qn(str(instance.user))))
+        except Exception as e:
+            print(e)
+
 post_save.connect(create_profile_database, sender=Student)
+pre_delete.connect(delete_profile_database, sender=Student)
 
 class Work(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -38,7 +49,4 @@ class Work(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.name, self.points)
-
-
-
 
