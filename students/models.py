@@ -22,8 +22,9 @@ def create_profile_database(sender, instance, **kwargs):
         qn = connection.ops.quote_name
         with connection.cursor() as cursor:
             try:
-                cursor.execute("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s';" % (qn(str(instance.user), str(instance.user))))
-                cursor.execute("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost' WITH GRANT OPTION;" % (qn(str(instance.user), str(instance.user))))
+                cursor.execute("CREATE DATABASE %s;" % (qn(str(instance.user))))
+                cursor.execute("CREATE USER %s@localhost IDENTIFIED BY '%s';" % (qn(str(instance.user)), qn(str(instance.user))))
+                cursor.execute("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost' WITH GRANT OPTION;" % (qn(str(instance.user)), qn(str(instance.user))))
             except Exception as e:
                 print(e)
 
@@ -34,6 +35,9 @@ def delete_profile_database(sender, instance, **kwargs):
         try:
             cursor.execute("DROP DATABASE %s" % (
                 qn(str(instance.user))))
+            cursor.execute("DROP user %s@'localhost'" % (
+                qn(str(instance.user))))
+            cursor.execute("flush privileges;")
         except Exception as e:
             print(e)
 
