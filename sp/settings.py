@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'platform',
-        'USER': 'r',
-        'PASSWORD': 'r',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -126,8 +126,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'rihasultanov@gmail.com'
-EMAIL_HOST_PASSWORD = 'secret'
-EMAIL_PORT = 587
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'studentsplatform@yandex.ru'
+EMAIL_HOST_PASSWORD = 'studentsplatformsmtp'
+EMAIL_PORT = '465'
