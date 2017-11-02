@@ -16,19 +16,22 @@ class Student(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
-# Dev
+
 def create_profile_database(sender, instance, **kwargs):
     if kwargs['created']:
         qn = connection.ops.quote_name
         with connection.cursor() as cursor:
             try:
                 cursor.execute("CREATE DATABASE %s;" % (qn(str(instance.user))))
-                cursor.execute("CREATE USER %s@localhost IDENTIFIED BY '%s';" % (qn(str(instance.user)), qn(str(instance.user))))
-                cursor.execute("GRANT ALL PRIVILEGES ON %s.* TO %s@localhost WITH GRANT OPTION;" % (qn(str(instance.user)), qn(str(instance.user))))
+                cursor.execute("CREATE USER %s@localhost IDENTIFIED BY '%s';"
+                               % (qn(str(instance.user)), str(instance.user)))
+                print(cursor._last_executed)
+                cursor.execute("GRANT ALL PRIVILEGES ON %s.* TO %s@localhost WITH GRANT OPTION;"
+                               % (qn(str(instance.user)), qn(str(instance.user))))
             except Exception as e:
                 print(e)
 
-# Dev
+
 def delete_profile_database(sender, instance, **kwargs):
     qn = connection.ops.quote_name
     with connection.cursor() as cursor:
@@ -53,4 +56,27 @@ class Work(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.name, self.points)
+
+class PasswordDatabase(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True)
+    password = models.CharField(max_length=80, blank=True)
+    created_at = models.DateTimeField('Datetime created')
+
+    def __str__(self):
+        return '%s %s' % (self.user, 'DB PASS CHANGED')
+
+def change_password_database(sender, instance, **kwargs):
+        qn = connection.ops.quote_name
+        with connection.cursor() as cursor:
+            try:
+                cursor.execute("SET PASSWORD FOR %s@localhost = PASSWORD('%s');" % (qn(str(instance.user)), str(instance.password)))
+            except Exception as e:
+                print(e)
+
+
+post_save.connect(change_password_database, sender=PasswordDatabase)
+
 
