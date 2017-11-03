@@ -9,6 +9,9 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+from students.models import Student
+
+
 
 
 def signup(request):
@@ -25,11 +28,11 @@ def signup(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            mail_subject = 'Activate your blog account.'
+            mail_subject = '[ST | Platform] Активируйте свой аккаунт!'
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
+            return render(request, 'firstregdone.html')
 
     else:
         form = SignupForm()
@@ -44,9 +47,11 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
+        Students = Student(user=user, first_name=user.first_name, last_name=user.last_name)
+        Students.save()
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return render(request, 'regdone.html')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return render(request, 'errorregdone.html')
