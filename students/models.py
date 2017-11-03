@@ -9,10 +9,14 @@ class Student(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        blank=True)
-    first_name = models.CharField(max_length=80, blank=True)
-    last_name = models.CharField(max_length=80, blank=True)
+        blank=True, verbose_name="Логин")
+    first_name = models.CharField(max_length=80, blank=True, verbose_name="Имя")
+    last_name = models.CharField(max_length=80, blank=True, verbose_name="Фамилия")
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Студента'
+        verbose_name_plural = 'Студенты'
 
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
@@ -50,26 +54,34 @@ pre_delete.connect(delete_profile_database, sender=Student)
 
 
 class Work(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    name = models.CharField(max_length=80, blank=True)
-    description = models.CharField(max_length=255, blank=True)
-    points = models.PositiveSmallIntegerField(blank=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name="Студент")
+    name = models.CharField(max_length=80, blank=True, verbose_name="Название")
+    description = models.CharField(max_length=255, blank=True, verbose_name="Описание")
+    points = models.PositiveSmallIntegerField(blank=True, verbose_name="Баллы")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Задачу'
+        verbose_name_plural = 'Задачи для студентов'
+
     def __str__(self):
-        return '%s %s' % (self.name, self.points)
+        return '%s получил задание %s на %s баллов' % (self.student, self.name, self.points)
 
 
 class PasswordDatabase(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        blank=True)
-    password = models.CharField(max_length=80, blank=True)
+        blank=True, verbose_name="Логин")
+    password = models.CharField(max_length=80, blank=True, verbose_name="Пароль")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'новый пароль'
+        verbose_name_plural = 'Логи изменений паролей'
+
     def __str__(self):
-        return '%s %s' % (self.user, 'DB PASS CHANGED')
+        return 'Пароль для базы "%s" был изменен' % self.user
 
 
 def change_password_database(sender, instance, **kwargs):
