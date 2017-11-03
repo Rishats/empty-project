@@ -127,7 +127,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 EMAIL_USE_SSL = True
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_HOST_USER = 'studentsplatform@yandex.ru'
-EMAIL_HOST_PASSWORD = 'studentsplatformsmtp'
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sandboxeb691f4be3cd42de8d60a9d06283e093.mailgun.org'
+EMAIL_HOST_PASSWORD = '0a571f700b9053a427d70db83c0b861e'
 EMAIL_PORT = '465'
