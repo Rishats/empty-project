@@ -22,6 +22,9 @@ input.keypress(function(e) {
 		} else if (inputVal == "students") {
 			StudentsShow();
 			input.val('');
+		} else if (inputVal == "signup") {
+			SignupRedirect();
+			input.val('');
 		} else if (inputVal == "clear") {
 			clearConsole();
 			input.val('');
@@ -129,11 +132,18 @@ function StudentWorkShow(inputVal) {
 			return true;
 		}
 		else{
-			Output('<span>COMMAND NOT FOUND</span></br>');
+			Output('<span>КОМАНДА НЕ НАЙДЕНА!</span></br>');
 			input.val('');
 			return false;
 		}
 	});
+}
+
+function SignupRedirect() {
+		Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
+		setTimeout(function() {
+			window.open('/signup');
+		}, 1000);
 }
 
 // Prints out the result of the command into the output div
