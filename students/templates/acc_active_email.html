@@ -1,6 +1,9 @@
 {% autoescape off %}
 Привет {{ user.username }},
 Пройди по ссылке для того чтобы потдвердить свой аккаунт:,
+    После активации вы можете использовать свой логин и пароль для ввода в консоль чтобы подключиться к своей СУБД!
+    Логин: {{ user.username }}
+    Пароль: {{ user.password }}
 
 http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}

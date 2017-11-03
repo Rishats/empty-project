@@ -64,7 +64,14 @@ function clearConsole() {
 
 // prints out a list of "all" comands available
 function help() {
-	var commandsArray = ['Help: List of available commands', '>help', '>students', '>ping', '>time', '>clear', '>say'];
+	var commandsArray = ['Help: Список доступных комманд',
+		'>help - посмотреть команды',
+		'>signup - пройти регистрацию',
+		'>students - посмотреть студентов',
+		'>ping - пингануть меня',
+		'>time - узнать время',
+		'>clear - почистить экран',
+		'>say - сказать в консоль'];
 	for (var i = 0; i < commandsArray.length; i++) {
 		var out = '<span>' + commandsArray[i] + '</span><br/>'
 		Output(out);
@@ -86,9 +93,9 @@ function sayThis(data) {
 function sudo(data) {
 	data = data.substr(data.indexOf(' ') + 1);
 	if (data.startsWith("say") === true) {
-		data = "Not gona " + data + " to you, you don\'t own me!"
+		data = "Не не! " + data + " У тебя нет прав!"
 	} else if (data.startsWith("apt-get") === true) {
-		data = "<span class='green'>Updating...</span> The cake is a lie! There is nothing to update..."
+		data = "<span class='green'>Проверка...</span> Спасибо конечно, но все обновляется моим создателем (Ришатом!)..."
 	} else {
 		data = "The force is week within you, my master you not be!"
 	}
@@ -102,7 +109,7 @@ function getTime() {
 
 
 function StudentsShow() {
-	var studentsArray = ['>Students:', '>Write student name if you need check work:', 'rishat', 'khairidin', 'vlad', 'fara'];
+	var studentsArray = ['>Студенты:', '>Напиши свой логин чтобы войти в свою СУБД!:', 'rishat', 'khairidin', 'vlad', 'fara'];
 	seperator();
 	for (var i = 0; i < studentsArray.length; i++) {
 		var out = '<span>' + studentsArray[i] + '</span><br/>'
