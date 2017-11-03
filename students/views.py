@@ -12,8 +12,6 @@ from django.core.mail import EmailMessage
 from students.models import Student
 
 
-
-
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -39,6 +37,7 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': form})
 
+
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -55,3 +54,10 @@ def activate(request, uidb64, token):
         return render(request, 'regdone.html')
     else:
         return render(request, 'errorregdone.html')
+
+# API
+
+
+def students_login(request):
+    databases = User.objects.all().values('username')
+    return HttpResponse(databases, content_type='application/json')

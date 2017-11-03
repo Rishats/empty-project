@@ -107,7 +107,7 @@ function sudo(data) {
 
 // function to get current time...not
 function getTime() {
-	Output('<span>It\'s the 21st century man! Get a SmartWatch</span></br>');
+	Output('<span>Ой да ладно тебе :) У тебя же есть телефон :)</span></br>');
 }
 
 
@@ -125,13 +125,14 @@ function StudentWorkShow(inputVal) {
 	var studentsArray = ['>Students:', 'rishat', 'khairidin', 'vlad', 'fara'];
     studentsArray.some(function(student) {
 		if(inputVal.startsWith(student)) {
-			Output('<span class="blue">OKAY! YOU WILL REDIRECT!.</span>');
+			Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
 			setTimeout(function() {
 				window.open('/phpmyadmin/index.php?db='+student);
 			}, 1000);
 			return true;
 		}
 		else{
+			seperator();
 			Output('<span>КОМАНДА НЕ НАЙДЕНА!</span></br>');
 			input.val('');
 			return false;
@@ -140,10 +141,12 @@ function StudentWorkShow(inputVal) {
 }
 
 function SignupRedirect() {
+		seperator();
 		Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
 		setTimeout(function() {
 			window.open('/signup');
 		}, 1000);
+
 }
 
 // Prints out the result of the command into the output div
