@@ -112,18 +112,57 @@ function getTime() {
 
 
 function StudentsShow() {
-	var studentsArray = ['>Студенты:', '>Напиши свой логин чтобы войти в свою СУБД!:', 'rishat', 'khairidin', 'vlad', 'fara'];
-	seperator();
-	for (var i = 0; i < studentsArray.length; i++) {
-		var out = '<span>' + studentsArray[i] + '</span><br/>'
-		Output(out);
-	}
-	seperator();
+	axios.get('/students_login')
+  	.then(function (response) {
+		var str = response.data; // string to check
+		var searchItem = /\'username\': \'\w+\'/g; // regexp to search, mean "'username': 'ANYTEXT'"
+
+		var arr = str.match(searchItem); // do search regexp in string
+
+		// if arr === null - cleaning useless
+		if ( arr !== null ){
+
+			// slice every string to remove username and quotes
+			for (var k=0; k < arr.length; k++){
+				arr[k] = arr[k].slice(13, -1);
+			};
+
+		};
+
+		// show resu
+		var studentsArray = arr;
+		seperator();
+		Output('<span>>Студенты:</span><br/>');
+		Output('<span>>Напиши свой логин чтобы войти в свою СУБД!:</span><br/>');
+		for (var i = 0; i < studentsArray.length; i++) {
+			var out = '<span>' + studentsArray[i] + '</span><br/>'
+			Output(out);
+		}
+		seperator();
+	 })
+	.catch(function (error) {
+				console.log(error);
+	  });
 }
 
 function StudentWorkShow(inputVal) {
-	var studentsArray = ['>Students:', 'rishat', 'khairidin', 'vlad', 'fara'];
-    studentsArray.some(function(student) {
+	axios.get('/students_login')
+  	.then(function (response) {
+		var str = response.data; // string to check
+		var searchItem = /\'username\': \'\w+\'/g; // regexp to search, mean "'username': 'ANYTEXT'"
+
+		var arr = str.match(searchItem); // do search regexp in string
+
+		// if arr === null - cleaning useless
+		if ( arr !== null ){
+
+			// slice every string to remove username and quotes
+			for (var k=0; k < arr.length; k++){
+				arr[k] = arr[k].slice(13, -1);
+			};
+
+		};
+		arr.some(function(student) {
 		if(inputVal.startsWith(student)) {
 			Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
 			setTimeout(function() {
@@ -137,7 +176,33 @@ function StudentWorkShow(inputVal) {
 			input.val('');
 			return false;
 		}
+	 })
 	});
+
+}
+
+function GetStudents() {
+	axios.get('/students_login')
+	  .then(function (response) {
+	  	var str = response.data; // string to check
+		var searchItem = /\'username\': \'\w+\'/g; // regexp to search, mean "'username': 'ANYTEXT'"
+
+		var arr = str.match(searchItem); // do search regexp in string
+
+		// if arr === null - cleaning useless
+		if ( arr !== null ){
+
+			// slice every string to remove username and quotes
+			for (var k=0; k < arr.length; k++){
+				arr[k] = arr[k].slice(13, -1);
+			};
+
+		};
+		return arr;
+	  })
+	  .catch(function (error) {
+		console.log(error);
+	  });
 }
 
 function SignupRedirect() {
