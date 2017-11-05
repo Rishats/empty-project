@@ -10,6 +10,8 @@ from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from students.models import Student
+from django.conf import settings
+
 
 
 def signup(request):
@@ -28,7 +30,7 @@ def signup(request):
             })
             mail_subject = '[ST | Platform] Активируйте свой аккаунт!'
             to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email])
+            email = EmailMessage(mail_subject, message, to=[to_email], from_email=settings.EMAIL_HOST_USER)
             email.send()
             return render(request, 'firstregdone.html')
 
@@ -59,5 +61,5 @@ def activate(request, uidb64, token):
 
 
 def students_login(request):
-    databases = User.objects.all().values('username')
+    databases = User.objects.all().filter(is_active=1).values('username')
     return HttpResponse(databases, content_type='application/json')
