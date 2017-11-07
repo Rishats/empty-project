@@ -3,6 +3,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.db import connection
 from django.conf import settings
 from django.core.mail import send_mail
+import random, string
 
 
 class Student(models.Model):
@@ -22,18 +23,29 @@ class Student(models.Model):
         return '%s %s' % (self.first_name, self.last_name)
 
 
+def password_generate(length):
+   letters = string.ascii_lowercase
+   return ''.join(random.choice(letters) for i in range(length))
+
+
 def create_profile_database(sender, instance, **kwargs):
     if kwargs['created']:
         qn = connection.ops.quote_name
+        password = password_generate(50)
         with connection.cursor() as cursor:
             try:
                 cursor.execute("CREATE DATABASE %s;" % (qn(str(instance.user))))
                 cursor.execute("CREATE USER %s@localhost IDENTIFIED BY '%s';"
-                               % (qn(str(instance.user)), str(instance.user)))
+                               % (qn(str(instance.user)), str(password)))
                 cursor.execute("GRANT ALL PRIVILEGES ON %s.* TO %s@localhost WITH GRANT OPTION;"
                                % (qn(str(instance.user)), qn(str(instance.user))))
             except Exception as e:
                 print(e)
+        body = 'Пользователь: %(db)s База данных: %(db)s Пароль: %(password)s'
+        send_mail('[ST | Platform] Ваш доступ к СУБД!',
+                  body % {"db": instance.user, "password": password},
+                  settings.EMAIL_HOST_USER,
+                  [instance.user.email], fail_silently=False)
 
 
 def delete_profile_database(sender, instance, **kwargs):
@@ -91,8 +103,8 @@ def change_password_database(sender, instance, **kwargs):
                 cursor.execute("SET PASSWORD FOR %s@localhost = PASSWORD('%s');" % (qn(str(instance.user)), str(instance.password)))
             except Exception as e:
                 print(e)
-        body = 'DB: %(db)s Password: %(password)s'
-        send_mail('[ST | Platform] New DB password!',
+        body = 'Пользователь: %(db)s База данных: %(db)s Пароль: %(password)s'
+        send_mail('[ST | Platform] Ваш пароль от СУБД был сброшен!',
                   body % {"db": instance.user, "password": instance.password},
                   settings.EMAIL_HOST_USER,
                   [instance.user.email], fail_silently=False)
