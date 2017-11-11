@@ -3,6 +3,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.db import connection
 from django.conf import settings
 from django.core.mail import send_mail
+from django import forms
 import random, string
 
 
@@ -70,6 +71,7 @@ class Work(models.Model):
     name = models.CharField(max_length=80, blank=True, verbose_name="Название")
     description = models.CharField(max_length=255, blank=True, verbose_name="Описание")
     points = models.PositiveSmallIntegerField(blank=True, verbose_name="Баллы")
+    done = models.NullBooleanField(verbose_name="Выполнение")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
