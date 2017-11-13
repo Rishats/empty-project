@@ -1,3 +1,4 @@
+![alt text](https://image.ibb.co/i2Y9Hb/screen.png)
 Welcome to ST-Platform!
 ===================
 
