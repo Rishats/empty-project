@@ -1,4 +1,6 @@
 <p align="center"><img src="https://image.ibb.co/i2Y9Hb/screen.png"></p>
+-------------
+
 Welcome to ST-Platform!
 ===================
 
