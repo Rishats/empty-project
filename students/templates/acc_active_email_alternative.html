@@ -1,0 +1,6 @@
+{% autoescape off %}
+Привет {{ user.username }},
+Пройди по ссылке для того чтобы потдвердить свой аккаунт!
+После активации вы получите доступы к СУБД! 
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}

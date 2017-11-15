@@ -6,9 +6,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
-from django.core.mail import EmailMessage
 from students.models import Student
 from django.conf import settings
 
@@ -22,16 +22,24 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            message = render_to_string('acc_active_email.html', {
+            subject, from_email, to = '[ST | Platform] Активируйте свой аккаунт!',\
+                                      settings.EMAIL_HOST_USER,\
+                                      form.cleaned_data.get('email')
+            text_content = render_to_string('acc_active_email_alternative.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            mail_subject = '[ST | Platform] Активируйте свой аккаунт!'
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email], from_email=settings.EMAIL_HOST_USER)
-            email.send()
+            html_content = render_to_string('acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
             return render(request, 'firstregdone.html')
 
     else:
