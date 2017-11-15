@@ -25,7 +25,7 @@ SECRET_KEY = 'ovc1$$@*^i&xm#h*t)np^=gc2mg)y+u6o%8&4f(*tnh+$iti*o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'platform',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'platformlocal',
+        'PASSWORD': 'platformlocal',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -125,9 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = "/var/www/platform/students-platform/static/"
 
 EMAIL_USE_SSL = True
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@sandboxeb691f4be3cd42de8d60a9d06283e093.mailgun.org'
-EMAIL_HOST_PASSWORD = '0a571f700b9053a427d70db83c0b861e'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'studentsplatform@yandex.ru'
+EMAIL_HOST_PASSWORD = 'secret'
 EMAIL_PORT = '465'
