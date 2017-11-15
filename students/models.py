@@ -32,7 +32,7 @@ def password_generate(length):
 def create_profile_database(sender, instance, **kwargs):
     if kwargs['created']:
         qn = connection.ops.quote_name
-        password = password_generate(50)
+        password = password_generate(20)
         with connection.cursor() as cursor:
             try:
                 cursor.execute("CREATE DATABASE %s CHARACTER SET utf8 COLLATE utf8_general_ci;" % (qn(str(instance.user))))
@@ -60,6 +60,11 @@ def delete_profile_database(sender, instance, **kwargs):
             cursor.execute("flush privileges;")
         except Exception as e:
             print(e)
+    body = 'Вашу базу удалил преподаватель и Вы теперь не числитесь в студентах ST-Platform: База данных: %(db)s'
+    send_mail('[ST | Platform] Ваша база в СУБД была удалена!',
+              body % {"db": instance.user},
+              settings.EMAIL_HOST_USER,
+              [instance.user.email], fail_silently=False)
 
 
 post_save.connect(create_profile_database, sender=Student)
