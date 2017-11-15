@@ -35,7 +35,7 @@ def create_profile_database(sender, instance, **kwargs):
         password = password_generate(50)
         with connection.cursor() as cursor:
             try:
-                cursor.execute("CREATE DATABASE %s;" % (qn(str(instance.user))))
+                cursor.execute("CREATE DATABASE %s CHARACTER SET utf8 COLLATE utf8_general_ci;" % (qn(str(instance.user))))
                 cursor.execute("CREATE USER %s@localhost IDENTIFIED BY '%s';"
                                % (qn(str(instance.user)), str(password)))
                 cursor.execute("GRANT ALL PRIVILEGES ON %s.* TO %s@localhost WITH GRANT OPTION;"
