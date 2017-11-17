@@ -25,6 +25,10 @@ input.keypress(function(e) {
 		} else if (inputVal == "signup") {
 			SignupRedirect();
 			input.val('');
+		} else if (inputVal == "signin") {
+			SigninRedirect();
+			input.val('');
+		}
 		} else if (inputVal == "clear") {
 			clearConsole();
 			input.val('');
@@ -45,10 +49,10 @@ input.keypress(function(e) {
 		} else if (inputVal.startsWith("exit") === true) {
 			Output('<span class="blue">Goodbye! Comeback soon.</span>');
 		} else {
-			console.log(inputVal);
-			StudentWorkShow(inputVal);
+			seperator();
+			Output('<span>КОМАНДА НЕ НАЙДЕНА!</span></br>');
+			input.val('');
 		}
-	}
 });
 
 // functions related to the commands typed
@@ -70,6 +74,7 @@ function help() {
 	var commandsArray = ['Help: Список доступных комманд',
 		'>help - посмотреть команды',
 		'>signup - пройти регистрацию',
+		'>signin - войти в СУБД.',
 		'>students - посмотреть студентов',
 		'>ping - пингануть меня',
 		'>time - узнать время',
@@ -133,7 +138,6 @@ function StudentsShow() {
 		var studentsArray = arr;
 		seperator();
 		Output('<span>>Студенты:</span><br/>');
-		Output('<span>>Напиши свой логин чтобы войти в свою СУБД!:</span><br/>');
 		for (var i = 0; i < studentsArray.length; i++) {
 			var out = '<span>' + studentsArray[i] + '</span><br/>'
 			Output(out);
@@ -143,42 +147,6 @@ function StudentsShow() {
 	.catch(function (error) {
 				console.log(error);
 	  });
-}
-
-function StudentWorkShow(inputVal) {
-	axios.get('/students_login')
-  	.then(function (response) {
-		var str = response.data; // string to check
-		var searchItem = /\'username\': \'\w+\'/g; // regexp to search, mean "'username': 'ANYTEXT'"
-
-		var arr = str.match(searchItem); // do search regexp in string
-
-		// if arr === null - cleaning useless
-		if ( arr !== null ){
-
-			// slice every string to remove username and quotes
-			for (var k=0; k < arr.length; k++){
-				arr[k] = arr[k].slice(13, -1);
-			};
-
-		};
-		arr.some(function(student) {
-		if(inputVal.startsWith(student)) {
-			Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
-			setTimeout(function() {
-				window.open('/phpmyadmin/index.php?db='+student);
-			}, 1000);
-			return true;
-		}
-		else{
-			seperator();
-			Output('<span>КОМАНДА НЕ НАЙДЕНА!</span></br>');
-			input.val('');
-			return false;
-		}
-	 })
-	});
-
 }
 
 function GetStudents() {
@@ -210,6 +178,15 @@ function SignupRedirect() {
 		Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
 		setTimeout(function() {
 			window.open('/signup');
+		}, 1000);
+
+}
+
+function SigninRedirect() {
+		seperator();
+		Output('<span class="blue">ХОРОШО, Я ВАС ПЕРЕКИДЫВАЮ!.</span>');
+		setTimeout(function() {
+			window.open('/phpmyadmin');
 		}, 1000);
 
 }
